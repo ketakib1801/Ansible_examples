@@ -1,0 +1,45 @@
+---
+ - hosts: webserver
+   tasks:
+    - name: install Development tools
+      yum:
+        name:
+          - curl-devel
+          - expat-devel
+          - gettext-devel
+          - openssl-devel
+          - zlib-devel
+          - wget
+          - gcc
+          - cpan
+        state: present
+    - name: Download git package.
+      get_url:
+       url: https://github.com/git/git/archive/v2.10.1.tar.gz
+       dest: /home/ansible/ansible/
+    - name: create directory
+      file:
+       path: /home/ansible/ansible/git
+       state: directory
+       recurse: yes
+    - name: Unarchive git pakcage.
+      unarchive:
+        src: /home/ansible/ansible/git-2.10.1.tar.gz
+        dest: /home/ansible/ansible/git
+        remote_src: yes
+    - name: Make all git binary
+      make:
+       chdir: /home/ansible/ansible/git/git-2.10.1
+       target: all
+       params:
+        prefix: /usr/local
+    - name: Install git
+      make:
+       chdir: /home/ansible/ansible/git/git-2.10.1
+       target: install
+       params:
+        prefix: /usr/local
+      register: output
+    - name: Output
+      debug:
+       var: output

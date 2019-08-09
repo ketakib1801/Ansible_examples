@@ -1,0 +1,12 @@
+---
+ - hosts: webserver
+   tasks:
+    - name : Change the ownership
+      file:
+       path: /home/ansible/ansible/shell.sh
+       mode: 0744
+    - name: Run shell script
+      shell: /home/ansible/ansible/shell.sh
+      args:
+       executable: /bin/bash
+

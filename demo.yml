@@ -1,0 +1,5 @@
+---
+ - hosts: webserver
+   tasks:
+    - name: maven clean package
+      command: mvn -f /home/ansible/maven/pom.xml clean package

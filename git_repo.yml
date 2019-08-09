@@ -1,0 +1,21 @@
+---
+ - hosts: webserver
+   tasks:
+    - name: Checkout to git
+      git:
+       repo: https://github.com/ketakib1801/Maven_Web.git
+       dest: /home/ansible/ansible/maven
+    - name: maven package.
+      copy:
+       content: mvn -f /home/ansible/ansible/maven/pom.xml clean package
+       dest: /home/ansible/demo.sh
+    - name: file execute
+      file:
+       path: /home/ansible/demo.sh
+       mode: 0744
+    - name: exe
+      shell : /home/ansible/demo.sh
+      register: output
+    - name: output
+      debug:
+        var: output      
